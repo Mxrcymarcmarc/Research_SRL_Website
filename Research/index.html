@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#491b2b" />
+    <meta
+      name="description"
+      content="A playful, reflective Python learning studio built around self-regulated learning."
+    />
+    <title>Group2 Studio | Learn Python with intention</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
+      <section class="auth-card">
+        <a class="brand auth-brand" href="/" aria-label="Group2 Studio home">
+          <span class="brand-mark"><i data-lucide="orbit"></i></span>
+          <span><strong>Group2</strong><small>STUDIO</small></span>
+        </a>
+        <div class="eyebrow">YOUR PYTHON LEARNING SPACE</div>
+        <h1 id="auth-title">Welcome <em>home.</em></h1>
+        <p class="auth-intro">
+          Sign in or create an account to keep your lessons and progress safe.
+        </p>
+        <div class="auth-tabs" role="tablist" aria-label="Account access">
+          <button
+            class="auth-tab is-active"
+            id="login-tab"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="login-form"
+          >
+            Log in
+          </button>
+          <button
+            class="auth-tab"
+            id="register-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="register-form"
+          >
+            Register
+          </button>
+        </div>
+        <form class="auth-form" id="login-form">
+          <label for="login-email">Email address</label>
+          <input
+            id="login-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+          />
+          <label for="login-password">Password</label>
+          <input
+            id="login-password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+          />
+          <button class="button button-gold auth-submit" type="submit">
+            Log in <i data-lucide="arrow-right"></i>
+          </button>
+        </form>
+        <form class="auth-form" id="register-form" hidden>
+          <label for="register-name">Name</label>
+          <input
+            id="register-name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            maxlength="80"
+            required
+          />
+          <label for="register-email">Email address</label>
+          <input
+            id="register-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+          />
+          <label for="register-password"
+            >Password <span>12 characters or more</span></label
+          >
+          <input
+            id="register-password"
+            name="password"
+            type="password"
+            autocomplete="new-password"
+            minlength="12"
+            required
+          />
+          <button class="button button-gold auth-submit" type="submit">
+            Create account <i data-lucide="arrow-right"></i>
+          </button>
+        </form>
+        <form class="auth-form" id="confirmation-form" hidden>
+          <label for="confirmation-code">Email confirmation code</label>
+          <input
+            id="confirmation-code"
+            name="code"
+            type="text"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            pattern="[0-9]{6}"
+            maxlength="6"
+            required
+          />
+          <button class="button button-gold auth-submit" type="submit">
+            Confirm email <i data-lucide="arrow-right"></i>
+          </button>
+        </form>
+        <a class="google-signin" id="google-signin" href="/auth/google/start"
+          ><span class="google-g">G</span> Continue with Google</a
+        >
+        <p class="auth-message" id="auth-message" role="status"></p>
+        <button
+          class="auth-resend"
+          id="resend-confirmation"
+          type="button"
+          hidden
+        >
+          Resend confirmation code
+        </button>
+        <p class="auth-security-note">
+          Your account is private. We’ll never show your learning history to
+          other learners.
+        </p>
+      </section>
+    </main>
+    <div class="app-shell" id="app-shell" hidden>
+      <aside class="sidebar" aria-label="Main navigation">
+        <a
+          class="brand"
+          href="#dashboard"
+          data-view="dashboard"
+          aria-label="Group2 Studio home"
+        >
+          <span class="brand-mark"><i data-lucide="orbit"></i></span>
+          <span><strong>Group2</strong><small>STUDIO</small></span>
+        </a>
+        <div class="sidebar-label">YOUR SPACE</div>
+        <nav class="primary-nav" aria-label="Your space">
+          <button
+            class="nav-link is-active"
+            data-view="dashboard"
+            aria-label="Home"
+            aria-current="page"
+          >
+            <i data-lucide="layout-dashboard"></i><span>Home</span>
+          </button>
+          <button class="nav-link" data-view="course" aria-label="Course map">
+            <i data-lucide="map"></i><span>Course map</span
+            ><span class="nav-count">08</span>
+          </button>
+          <button class="nav-link" data-view="lab" aria-label="Code lab">
+            <i data-lucide="terminal-square"></i><span>Code lab</span>
+          </button>
+          <button
+            class="nav-link"
+            data-view="progress"
+            aria-label="My progress"
+          >
+            <i data-lucide="chart-no-axes-column-increasing"></i
+            ><span>My progress</span>
+          </button>
+        </nav>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label outline-label">
+          COURSE OUTLINE <span>8</span>
+        </div>
+        <nav
+          class="topic-nav"
+          id="topic-nav"
+          aria-label="Python course outline"
+        ></nav>
+        <div class="sidebar-bottom">
+          <div class="srl-note">
+            <span class="srl-spark">✳</span>
+            <p>Small steps.<br /><strong>Deliberate practice.</strong></p>
+          </div>
+          <button
+            class="profile-button"
+            type="button"
+            aria-label="Learner profile"
+            data-view="profile"
+          >
+            <span class="avatar">Y</span
+            ><span class="profile-copy"
+              ><strong>Your learning space</strong
+              ><small>Beginner · Python</small></span
+            ><i data-lucide="chevron-down"></i>
+          </button>
+        </div>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div class="breadcrumb">
+            <span>LEARNING SPACE</span><i data-lucide="chevron-right"></i
+            ><strong id="breadcrumb-current">HOME</strong>
+          </div>
+          <div class="topbar-actions">
+            <span class="streak-pill"
+              ><i data-lucide="flame"></i><strong id="header-streak">0</strong
+              ><span>day streak</span></span
+            >
+            <button
+              class="icon-button mobile-menu"
+              id="mobile-menu"
+              type="button"
+              aria-label="Expand navigation"
+              aria-expanded="false"
+            >
+              <i data-lucide="menu"></i>
+            </button>
+            <button
+              class="top-avatar profile-shortcut"
+              id="profile-shortcut"
+              type="button"
+              aria-label="Open profile"
+            >
+              Y
+            </button>
+          </div>
+        </header>
+
+        <div class="view-container">
+          <section
+            class="app-view is-visible"
+            id="view-dashboard"
+            aria-labelledby="welcome-title"
+          >
+            <div class="welcome-row">
+              <div>
+                <div class="eyebrow">
+                  <span class="live-dot"></span> YOUR PYTHON PRACTICE, IN RHYTHM
+                </div>
+                <h1 id="welcome-title">Make room<br />for <em>coding.</em></h1>
+                <p class="welcome-copy">
+                  A little curiosity, a little code, and a clearer picture of
+                  what you know.
+                </p>
+                <button
+                  class="button button-gold"
+                  id="continue-button"
+                  type="button"
+                >
+                  Pick up your practice <i data-lucide="arrow-up-right"></i>
+                </button>
+              </div>
+              <div
+                class="hero-art"
+                aria-label="Illustration of a path through learning milestones"
+              >
+                <div class="hero-orbit orbit-one"></div>
+                <div class="hero-orbit orbit-two"></div>
+                <div class="hero-sun"><i data-lucide="sparkles"></i></div>
+                <span class="orbit-label label-plan">01 / PLAN</span
+                ><span class="orbit-label label-do">02 / PERFORM</span
+                ><span class="orbit-label label-reflect">03 / REFLECT</span>
+                <span class="orbit-star star-a">✳</span
+                ><span class="orbit-star star-b">✳</span>
+                <div class="hero-caption">LEARN AT YOUR OWN PACE</div>
+              </div>
+            </div>
+
+            <div class="stats-strip" aria-label="Your learning at a glance">
+              <div class="stat-block">
+                <span class="stat-label">QUESTIONS TRIED</span
+                ><strong id="stat-answered">0</strong
+                ><span class="stat-note">Every attempt counts</span>
+              </div>
+              <div class="stat-block">
+                <span class="stat-label">ACCURACY</span
+                ><strong id="stat-accuracy">0<span>%</span></strong
+                ><span class="stat-note">Understanding in motion</span>
+              </div>
+              <div class="stat-block">
+                <span class="stat-label">PRACTICE STREAK</span
+                ><strong id="stat-streak">0 <small>days</small></strong
+                ><span class="stat-note">A rhythm worth keeping</span>
+              </div>
+              <div class="stat-block stat-focus">
+                <span class="stat-label">CURRENT FOCUS</span
+                ><strong id="stat-focus">Python basics</strong
+                ><span class="stat-note" id="stat-focus-note"
+                  >Choose a topic to begin</span
+                >
+              </div>
+            </div>
+
+            <div class="dashboard-grid">
+              <section
+                class="panel practice-panel"
+                aria-labelledby="practice-title"
+              >
+                <div class="section-heading">
+                  <div>
+                    <div class="eyebrow">YOUR NEXT SMALL WIN</div>
+                    <h2 id="practice-title">Practice, then reflect</h2>
+                  </div>
+                  <button class="text-button" data-view="course" type="button">
+                    View course map <i data-lucide="arrow-right"></i>
+                  </button>
+                </div>
+                <div class="practice-prompt">
+                  <div class="topic-icon" id="practice-topic-icon">
+                    <i data-lucide="code-2"></i>
+                  </div>
+                  <div class="prompt-copy">
+                    <span class="topic-kicker" id="practice-topic-kicker"
+                      >START WHERE YOU ARE</span
+                    >
+                    <h3 id="practice-topic-title">Choose a Python topic</h3>
+                    <p id="practice-topic-description">
+                      Select a topic from the outline and we’ll shape a short
+                      practice set around it.
+                    </p>
+                  </div>
+                  <button
+                    class="round-arrow"
+                    id="practice-start"
+                    type="button"
+                    aria-label="Start practice"
+                  >
+                    <i data-lucide="arrow-up-right"></i>
+                  </button>
+                </div>
+                <div class="practice-meta">
+                  <span
+                    ><i data-lucide="circle-help"></i
+                    ><span id="practice-question-count">3 questions</span></span
+                  ><span><i data-lucide="clock-3"></i>About 3 min</span
+                  ><span class="meta-srl"
+                    ><i data-lucide="brain"></i>Notice what you know</span
+                  >
+                </div>
+              </section>
+
+              <section
+                class="panel badges-panel"
+                aria-labelledby="badges-title"
+              >
+                <div class="section-heading compact-heading">
+                  <div>
+                    <div class="eyebrow">MILESTONES</div>
+                    <h2 id="badges-title">Little wins</h2>
+                  </div>
+                  <button
+                    class="icon-button"
+                    data-view="progress"
+                    type="button"
+                    aria-label="View all progress"
+                  >
+                    <i data-lucide="arrow-up-right"></i>
+                  </button>
+                </div>
+                <div class="badge-row" id="badge-row"></div>
+                <p class="badge-caption" id="badge-caption">
+                  Your first badge is one question away.
+                </p>
+              </section>
+            </div>
+
+            <section
+              class="panel outline-panel"
+              aria-labelledby="outline-title"
+            >
+              <div class="section-heading">
+                <div>
+                  <div class="eyebrow">THE LEARNING PATH</div>
+                  <h2 id="outline-title">Python, piece by piece</h2>
+                </div>
+                <button class="text-button" data-view="course" type="button">
+                  Explore all 8 topics <i data-lucide="arrow-right"></i>
+                </button>
+              </div>
+              <div class="mini-outline" id="mini-outline"></div>
+            </section>
+          </section>
+
+          <section
+            class="app-view"
+            id="view-course"
+            aria-labelledby="course-title"
+          >
+            <div class="page-intro">
+              <div>
+                <div class="eyebrow">THE LEARNING PATH · 8 TOPICS</div>
+                <h1 id="course-title">Your Python <em>course map.</em></h1>
+                <p>
+                  Select one or more topics to shape a learning path. Open a
+                  lesson first, then practice and reflect.
+                </p>
+              </div>
+              <div class="course-progress-ring">
+                <span id="course-completion">0%</span><small>complete</small>
+              </div>
+            </div>
+            <div class="selection-bar" id="course-selection">
+              <span
+                ><i data-lucide="target"></i
+                ><strong id="course-selection-title"
+                  >Select topics to plan your path</strong
+                ><small id="course-selection-subtitle"
+                  >Choose one or more topics, then start with the lesson.</small
+                ></span
+              ><button
+                class="button button-gold"
+                id="course-start"
+                type="button"
+                disabled
+              >
+                Start selected path <i data-lucide="arrow-up-right"></i>
+              </button>
+            </div>
+            <div
+              class="srl-course-path"
+              id="course-srl-path"
+              aria-label="Self-regulated learning steps"
+            ></div>
+            <div class="course-grid" id="course-grid"></div>
+            <aside class="source-note">
+              <i data-lucide="book-open-text"></i
+              ><span
+                >Lessons follow the
+                <a
+                  href="https://docs.python.org/3/tutorial/"
+                  target="_blank"
+                  rel="noreferrer"
+                  >official Python tutorial</a
+                >
+                and link to the relevant chapter in each topic.</span
+              >
+            </aside>
+          </section>
+
+          <section
+            class="app-view"
+            id="view-lesson"
+            aria-labelledby="lesson-title"
+          >
+            <div class="practice-page-top">
+              <button class="back-button" id="lesson-back" type="button">
+                <i data-lucide="arrow-left"></i> Back to course map
+              </button>
+              <span class="phase-chip"
+                ><i data-lucide="book-open"></i> STEP 2 · PERFORM</span
+              >
+            </div>
+            <div
+              class="srl-course-path"
+              id="lesson-srl-path"
+              aria-label="Self-regulated learning steps"
+            ></div>
+            <div class="lesson-layout">
+              <article class="lesson-card">
+                <div class="eyebrow" id="lesson-kicker">TOPIC 1</div>
+                <h1 id="lesson-title">Lesson</h1>
+                <p class="lesson-intro" id="lesson-intro"></p>
+                <section
+                  class="beginner-guide"
+                  aria-labelledby="beginner-guide-title"
+                >
+                  <h2 id="beginner-guide-title">Start with the basics</h2>
+                  <p id="lesson-beginner-guide"></p>
+                  <h3>Key ideas</h3>
+                  <ul id="lesson-key-ideas"></ul>
+                  <p class="lesson-watch-out" id="lesson-watch-out"></p>
+                </section>
+                <div
+                  class="lesson-review-notes"
+                  id="lesson-review-notes"
+                  hidden
+                ></div>
+                <div class="lesson-example">
+                  <div class="lesson-example-heading">
+                    <strong>Explore the example</strong>
+                    <button
+                      class="text-button"
+                      id="lesson-run-example"
+                      type="button"
+                    >
+                      Try in Code Lab <i data-lucide="arrow-up-right"></i>
+                    </button>
+                  </div>
+                  <pre
+                    class="question-code"
+                  ><code id="lesson-code"></code></pre>
+                  <button
+                    class="lesson-reveal"
+                    id="lesson-reveal"
+                    type="button"
+                    aria-expanded="false"
+                  >
+                    <i data-lucide="eye"></i> Reveal what this code does
+                  </button>
+                  <p
+                    class="lesson-reveal-answer"
+                    id="lesson-reveal-answer"
+                    hidden
+                  ></p>
+                </div>
+                <section
+                  class="lesson-challenge"
+                  aria-labelledby="lesson-challenge-title"
+                >
+                  <div class="eyebrow">HANDS-ON · DRAG OR USE THE ARROWS</div>
+                  <h2 id="lesson-challenge-title">Put the code in order</h2>
+                  <p>
+                    Arrange the steps into a working example, then check your
+                    answer.
+                  </p>
+                  <ol class="lesson-sort-list" id="lesson-sort-list"></ol>
+                  <div class="lesson-challenge-actions">
+                    <button
+                      class="button button-outline"
+                      id="lesson-check-order"
+                      type="button"
+                    >
+                      Check my order
+                    </button>
+                    <span id="lesson-challenge-feedback" role="status"></span>
+                  </div>
+                </section>
+              </article>
+              <aside class="lesson-aside">
+                <div class="lesson-next-panel">
+                  <strong id="lesson-path-label">Your selected path</strong>
+                  <p id="lesson-path-topics"></p>
+                  <button
+                    class="button button-gold"
+                    id="lesson-continue"
+                    type="button"
+                  >
+                    Continue <i data-lucide="arrow-right"></i>
+                  </button>
+                </div>
+              </aside>
+            </div>
+          </section>
+
+          <section
+            class="app-view"
+            id="view-practice"
+            aria-labelledby="practice-page-title"
+          >
+            <div class="practice-page-top">
+              <button class="back-button" data-view="dashboard" type="button">
+                <i data-lucide="arrow-left"></i> Back to Home</button
+              ><span class="phase-chip"
+                ><i data-lucide="target"></i> PERFORM · TRY IT</span
+              >
+            </div>
+            <div
+              class="srl-course-path"
+              id="practice-srl-path"
+              aria-label="Self-regulated learning steps"
+            ></div>
+            <div class="practice-layout">
+              <div class="practice-main-column">
+                <div class="practice-title-row">
+                  <div>
+                    <div class="eyebrow" id="quiz-topic-kicker">
+                      PYTHON BASICS
+                    </div>
+                    <h1 id="practice-page-title">Practice set</h1>
+                  </div>
+                  <span class="question-counter" id="question-counter"
+                    >01 / 03</span
+                  >
+                </div>
+                <div class="quiz-progress-track">
+                  <span id="quiz-progress-fill"></span>
+                </div>
+                <article class="question-card" id="question-card"></article>
+                <div class="reflection-strip">
+                  <span class="reflection-mark"
+                    ><i data-lucide="lightbulb"></i
+                  ></span>
+                  <p>
+                    <strong>Self-check:</strong> Before you choose, what do you
+                    expect this code or concept to do?
+                  </p>
+                </div>
+              </div>
+              <aside class="practice-aside">
+                <div class="source-card">
+                  <i data-lucide="book-open"></i>
+                  <div>
+                    <strong>From the docs</strong
+                    ><a
+                      id="quiz-source-link"
+                      href="https://docs.python.org/3/tutorial/"
+                      target="_blank"
+                      rel="noreferrer"
+                      >Open the Python tutorial
+                      <i data-lucide="arrow-up-right"></i
+                    ></a>
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </section>
+
+          <section class="app-view" id="view-lab" aria-labelledby="lab-title">
+            <div class="page-intro lab-intro">
+              <div>
+                <div class="eyebrow">PYODIDE · RUNS IN YOUR BROWSER</div>
+                <h1 id="lab-title">A space to <em>experiment.</em></h1>
+                <p>
+                  Write a little Python, run it, and see what happens. Nothing
+                  is sent to a server.
+                </p>
+              </div>
+              <span class="runtime-status" id="runtime-status"
+                ><span class="status-dot"></span> Runtime loads on first
+                run</span
+              >
+            </div>
+            <div class="lab-layout">
+              <section class="editor-panel" aria-label="Python code editor">
+                <div class="editor-toolbar">
+                  <span class="editor-file"
+                    ><span class="python-mark">Py</span> playground.py</span
+                  ><span class="editor-shortcut">PYTHON 3 · WEB WORKER</span>
+                </div>
+                <label class="sr-only" for="code-editor">Python code</label
+                ><textarea
+                  id="code-editor"
+                  spellcheck="false"
+                  autocapitalize="off"
+                  autocomplete="off"
+                  autocorrect="off"
+                  aria-describedby="editor-help"
+                >
+# Try changing the name, then run your code!
+name = "Python learner"
+print(f"Hello, {name}!")
+
+scores = [8, 10, 7]
+average = sum(scores) / len(scores)
+print(f"Your average is {average:.1f}")</textarea
+                >
+                <div class="editor-input">
+                  <label for="stdin-input"
+                    ><i data-lucide="keyboard"></i> INPUT
+                    <span>(one value per line)</span></label
+                  ><input
+                    id="stdin-input"
+                    type="text"
+                    placeholder="Optional input() values"
+                    aria-label="Values provided to Python input calls"
+                  />
+                </div>
+                <div class="editor-footer">
+                  <span id="editor-help">Tip: use print() to see a result.</span
+                  ><button
+                    class="button button-gold run-button"
+                    id="run-code"
+                    type="button"
+                  >
+                    <i data-lucide="play"></i> Run code
+                  </button>
+                </div>
+              </section>
+              <section class="console-panel" aria-label="Program output">
+                <div class="console-toolbar">
+                  <span><span class="console-light"></span> OUTPUT</span
+                  ><button
+                    class="icon-button"
+                    id="clear-output"
+                    type="button"
+                    aria-label="Clear output"
+                  >
+                    <i data-lucide="trash-2"></i>
+                  </button>
+                </div>
+                <pre
+                  class="console-output"
+                  id="console-output"
+                  aria-live="polite"
+                >
+Your output will appear here.</pre
+                >
+                <div class="console-bottom">
+                  <span id="run-time">READY WHEN YOU ARE</span
+                  ><span>PYODIDE RUNTIME</span>
+                </div>
+              </section>
+            </div>
+            <div class="lab-footnote">
+              <i data-lucide="shield-check"></i> Code runs locally in a browser
+              worker. Avoid pasting secrets or personal information into code.
+            </div>
+          </section>
+
+          <section
+            class="app-view"
+            id="view-progress"
+            aria-labelledby="progress-title"
+          >
+            <div class="page-intro">
+              <div>
+                <div class="eyebrow">YOUR SELF-REFLECTION</div>
+                <h1 id="progress-title">Progress, <em>not perfection.</em></h1>
+                <p>Every answer leaves a clue about what to practice next.</p>
+              </div>
+              <span class="phase-chip"
+                ><i data-lucide="refresh-cw"></i> REFLECT · ADJUST</span
+              >
+            </div>
+            <div
+              class="srl-course-path"
+              id="progress-srl-path"
+              aria-label="Self-regulated learning steps"
+            ></div>
+            <div class="progress-summary" id="progress-summary"></div>
+            <div class="progress-content-grid">
+              <section class="panel topic-progress-panel">
+                <div class="section-heading">
+                  <div>
+                    <div class="eyebrow">TOPIC BY TOPIC</div>
+                    <h2>Where you're growing</h2>
+                  </div>
+                </div>
+                <div class="topic-progress-list" id="topic-progress-list"></div>
+              </section>
+
+              <section class="panel achievement-panel">
+                <div class="eyebrow">EARNED ALONG THE WAY</div>
+                <h2>Your badges</h2>
+                <div class="achievement-list" id="achievement-list"></div>
+                <div class="srl-reflect">
+                  <span><i data-lucide="scan-eye"></i></span>
+                  <p>
+                    <strong>One question to sit with</strong>What feels easier
+                    now than it did the first time?
+                  </p>
+                </div>
+              </section>
+            </div>
+            <div class="source-note">
+              <i data-lucide="database"></i
+              ><span
+                >Your practice history is stored in your private account.</span
+              >
+            </div>
+          </section>
+
+          <section
+            class="app-view"
+            id="view-profile"
+            aria-labelledby="profile-title"
+          >
+            <div class="page-intro">
+              <div>
+                <div class="eyebrow">YOUR ACCOUNT</div>
+                <h1 id="profile-title">Learning <em>profile.</em></h1>
+                <p>
+                  Manage your sign-in details and keep your learning journey
+                  yours.
+                </p>
+              </div>
+            </div>
+            <section class="panel profile-panel">
+              <div class="profile-avatar-large" id="profile-avatar">Y</div>
+              <div class="profile-details">
+                <span class="eyebrow">SIGNED IN AS</span>
+                <h2 id="profile-name">Learner</h2>
+                <p id="profile-email"></p>
+                <p class="profile-verified" id="profile-verified"></p>
+              </div>
+              <button
+                class="button button-outline"
+                id="logout-button"
+                type="button"
+              >
+                Log out <i data-lucide="log-out"></i>
+              </button>
+            </section>
+            <div class="source-note">
+              <i data-lucide="lock-keyhole"></i>
+              <span
+                >Your quiz history, badges, and reflection notes are linked to
+                this account.</span
+              >
+            </div>
+          </section>
+        </div>
+        <footer class="app-footer">
+          <span
+            >GROUP2 STUDIO <span class="footer-dot">·</span> LEARN WITH
+            INTENTION</span
+          ><span
+            ><a
+              href="https://docs.python.org/3/tutorial/"
+              target="_blank"
+              rel="noreferrer"
+              >PYTHON DOCUMENTATION</a
+            ><span class="footer-dot">·</span> SRL CYCLE: PLAN / PERFORM /
+            REFLECT</span
+          >
+        </footer>
+      </main>
+    </div>
+    <div
+      class="toast-region"
+      id="toast-region"
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
+  </body>
+</html>
